@@ -36,7 +36,15 @@ $conn = Connect();
     
     
 
-    <nav class="navbar navbar-dropdown navbar-fixed-top collapsed">
+    <nav class="navbar navbar-dropdown navbar-fixed-top">
+        <?php
+                 if (isset($_SESSION['login_customer'])){
+            ?>
+             <div class="nav navbar-nav">
+                
+                        <a href="#"><span class="glyphicon glyphicon-user"></span> Welcome <?php echo $_SESSION['login_customer']; ?></a>
+                
+            </div>
         <div class="navbar-brand">
             
             
@@ -49,8 +57,9 @@ $conn = Connect();
                 <span></span>
             </div>
         </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="customerlogin.php">Login/Signup<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page2.html">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page4.html">Contact Us<br><br></a></li></ul>
+     
+            <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
             <div class="icons-menu">
               <div class="soc-item">
                 <a href="https://twitter.com/mobirise" target="_blank">
@@ -73,6 +82,50 @@ $conn = Connect();
             </div>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="page2.html">RENT NOW</a></div>
       </div>
+       <?php
+            }
+                else {
+            ?>
+   
+        <div class="navbar-brand">
+            
+            
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="customerlogin.php">Login/Signup<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page4.html">Contact Us<br><br></a></li></ul>
+            <div class="icons-menu">
+              <div class="soc-item">
+                <a href="https://twitter.com/mobirise" target="_blank">
+                  <span class="mbr-iconfont socicon-twitter socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              <div class="soc-item">
+                <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
+                  <span class="mbr-iconfont socicon-facebook socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              <div class="soc-item">
+                <a href="https://instagram.com/mobirise" target="_blank">
+                  <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              
+              
+              
+            </div>
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="customerlogin.php">RENT NOW</a></div>
+      </div>
+       <?php   }
+                ?>
     </nav>
 </section>
 
@@ -176,7 +229,7 @@ $conn = Connect();
                     <div class="card-img">
                         <img src="assets/images/fullsize2-600x300.jpg" alt="" title="">
                         <div class="img-text mbr-text mbr-fonts-style align-left mbr-white display-4">
-                             Full Size 30 USD Per Day</div>
+                             Full Size 35 USD Per Day</div>
                     </div>
                     <div class="card-box">
                         <h3 class="mbr-title mbr-fonts-style mbr-bold mbr-black display-5">

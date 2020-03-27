@@ -34,18 +34,17 @@ CREATE TABLE `car` (
   `car_model` varchar(15) NOT NULL,
   `car_color` varchar(10) NOT NULL,
   `car_size` varchar(8) NOT NULL,
-  `car_status` varchar(8) NOT NULL,
   `car_tagplate` varchar(7) NOT NULL,
   `car_img` varchar(50) NOT NULL,
-  `price` int(4) NOT NULL
+  `price` int(4) NOT NULL,
+  `car_status` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `car`
 --
 
-INSERT INTO `car` (`car_ID`, `car_make`, `car_model`, `car_color`, `car_size`, `car_status`, `car_tagplate`, `car_img`, `price`) VALUES
-(1, 'Honda', 'Accord', 'White', 'Medium', 'Yes', 'LENA123', '', 0);
+
 
 -- --------------------------------------------------------
 
@@ -77,7 +76,7 @@ INSERT INTO `customer` (`cus_ID`, `cus_FName`, `cus_username`, `cus_password`, `
 --
 
 CREATE TABLE `manage` (
-  `manager_ID` varchar(20) NOT NULL,
+  `man_username` varchar(20) NOT NULL,
   `car_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -122,7 +121,7 @@ CREATE TABLE `reservation` (
   `res_status` varchar(8) NOT NULL,
   `res_car_ID` int(11) NOT NULL,
   `res_cus_ID` int(11) NOT NULL,
-  `res_amout` float NOT NULL
+  `res_amount` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -148,8 +147,9 @@ ALTER TABLE `customer`
 -- Indexes for table `manage`
 --
 ALTER TABLE `manage`
-  ADD KEY `manage_fk0` (`manager_ID`),
-  ADD KEY `manage_fk1` (`car_ID`);
+  ADD PRIMARY KEY (`car_ID`),
+  ADD KEY `man_username` (`man_username`);
+
 
 --
 -- Indexes for table `manager`
@@ -212,7 +212,7 @@ ALTER TABLE `reservation`
 -- Constraints for table `manage`
 --
 ALTER TABLE `manage`
-  ADD CONSTRAINT `manage_fk0` FOREIGN KEY (`manager_ID`) REFERENCES `manager` (`man_username`),
+  ADD CONSTRAINT `manage_fk0` FOREIGN KEY (`man_username`) REFERENCES `manager` (`man_username`),
   ADD CONSTRAINT `manage_fk1` FOREIGN KEY (`car_ID`) REFERENCES `car` (`car_ID`);
 
 --

@@ -3,7 +3,7 @@
 include('login_customer.php'); // Includes Login Script
 
 if(isset($_SESSION['login_customer'])){
-header("location: page2.php"); //Redirecting
+header("location: index.php"); //Redirecting
 }
 ?>
 <!DOCTYPE html>
