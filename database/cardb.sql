@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Mar 13, 2020 at 07:18 AM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.9
+-- Host: 127.0.0.1
+-- Generation Time: Apr 01, 2020 at 04:02 AM
+-- Server version: 10.4.10-MariaDB
+-- PHP Version: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -44,7 +44,19 @@ CREATE TABLE `car` (
 -- Dumping data for table `car`
 --
 
-
+INSERT INTO `car` (`car_ID`, `car_make`, `car_model`, `car_color`, `car_size`, `car_tagplate`, `car_img`, `price`, `car_status`) VALUES
+(1, 'Audi', 'R8', 'white', 'fullsize', 'CL123', 'assets/images/cars/audi-r8.jpg', 40, 'yes'),
+(30, 'Chevrolet', 'Impala', 'white', 'fullsize', 'CIW123', 'assets/images/cars/chevrolet-impala-w.png', 35, 'yes'),
+(31, 'Chevrolet', 'Impala', 'red', 'fullsize', 'CIR123', 'assets/images/cars/chevrolet-impala-r.jpg', 35, 'yes'),
+(32, 'Chevrolet', 'Impala', 'blue', 'fullsize', 'CIB123', 'assets/images/cars/Chevrolet-Impala-b.jpg', 35, 'yes'),
+(33, 'Dodge', 'Charger', 'blue', 'fullsize', 'DCB111', 'assets/images/cars/dodge-charger-blue.jpg', 35, 'yes'),
+(34, 'Dodge', 'Charger', 'white', 'fullsize', 'DCW112', 'assets/images/cars/dodge-charger.jpg', 35, 'yes'),
+(35, 'Audi', 'Q7', 'silver', 'suv', 'AQ9999', 'assets/images/cars/audi-q7.jpg', 50, 'yes'),
+(36, 'Nissan', 'Sentra', 'orange', 'compact', 'NSO111', 'assets/images/cars/nissan-sentra-o.jpg', 25, 'yes'),
+(37, '   BMW', 'X7', 'white', 'suv', 'BXW111', 'assets/images/cars/BMW-X7-w.jpg', 50, 'yes'),
+(38, 'Chevrolet', 'Boltev', 'red', 'compact', 'CBR111', 'assets/images/cars/chevrolet-boltev.jpg', 25, 'yes'),
+(39, 'Audi', 'A8', 'black', 'fullsize', 'AAB1111', 'assets/images/cars/audi-a8.jpg', 40, 'yes'),
+(40, 'Audi', 'Q7', 'black', 'suv', 'AQB1111', 'assets/images/cars/audi-q7-b.jpg', 50, 'yes');
 
 -- --------------------------------------------------------
 
@@ -80,6 +92,24 @@ CREATE TABLE `manage` (
   `car_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `manage`
+--
+
+INSERT INTO `manage` (`man_username`, `car_ID`) VALUES
+('chiluong', 1),
+('chiluong', 30),
+('chiluong', 31),
+('chiluong', 32),
+('chiluong', 33),
+('chiluong', 34),
+('chiluong', 35),
+('chiluong', 36),
+('chiluong', 37),
+('chiluong', 38),
+('chiluong', 39),
+('chiluong', 40);
+
 -- --------------------------------------------------------
 
 --
@@ -90,6 +120,13 @@ CREATE TABLE `manager` (
   `man_username` varchar(20) NOT NULL,
   `man_password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `manager`
+--
+
+INSERT INTO `manager` (`man_username`, `man_password`) VALUES
+('chiluong', 'admin');
 
 -- --------------------------------------------------------
 
@@ -116,6 +153,7 @@ CREATE TABLE `payment` (
 
 CREATE TABLE `reservation` (
   `res_ID` int(8) NOT NULL,
+  `res_date` date NOT NULL,
   `res_rentstart_date` date NOT NULL,
   `res_rentend_date` date NOT NULL,
   `res_status` varchar(8) NOT NULL,
@@ -150,7 +188,6 @@ ALTER TABLE `manage`
   ADD PRIMARY KEY (`car_ID`),
   ADD KEY `man_username` (`man_username`);
 
-
 --
 -- Indexes for table `manager`
 --
@@ -184,7 +221,7 @@ ALTER TABLE `reservation`
 -- AUTO_INCREMENT for table `car`
 --
 ALTER TABLE `car`
-  MODIFY `car_ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `car_ID` int(8) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `customer`

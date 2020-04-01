@@ -168,12 +168,15 @@
                                 </div>
                             </div>
                         </div>
+                        <?php
+
+                        ?>
 
                         <div class="row">
                             <div class="form-group col-xs-12">
                                 <label for="customer_address"><span class="text-danger" style="margin-right: 5px;">*</span> Date of Birth: </label>
                                 <div class="input-group">
-                                    <input class="form-control" id="customer_dob" type="date" name="customer_dob" placeholder="YYYY-MM-DD" required="">
+                                    <input class="form-control" id="customer_dob" type="date" max= "2002-04-01" name="customer_dob" placeholder="YYYY-MM-DD" required="">
                                     
                                 </div>
                             </div>

@@ -156,6 +156,9 @@ $conn = Connect();
                 <div class="panel panel-primary">
                     <div class="panel-heading"> Filter </div>
                     <div class="panel-body">
+                      <?php 
+                        date_default_timezone_set("America/New_York");
+                        $today = date("Y-m-d") ?>
 
                         <form action="result.php" method="POST">
 
@@ -163,14 +166,14 @@ $conn = Connect();
                                 <div class="form-group col-xs-12">
                                     <label for="start_date"><span class="text-danger" style="margin-right: 5px; float:left;">*</span> Start Date: </label>
                                     <div class="input-group">
-                                        <input class="form-control" id="start_date" type="date" name="start_date" placeholder="Start Date" required="" autofocus="">       
+                                        <input class="form-control" id="start_date" type="date" min="<?php echo($today);?>" name="start_date" placeholder="Start Date" required="" autofocus="">       
                                     </div>
                                 </div>
                            
                                 <div class="form-group col-xs-12">
                                     <label for="end_date"><span class="text-danger" style="margin-right: 5px; float:left;">*</span> End Date: </label>
                                     <div class="input-group">
-                                        <input class="form-control" id="end_date" type="date" name="end_date" placeholder="End Date" required="">    
+                                        <input class="form-control" id="end_date" type="date" min="<?php echo($today);?>" name="end_date" placeholder="End Date" required="">    
                                     </div>
                                 </div>
                             </div>

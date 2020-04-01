@@ -14,7 +14,7 @@ $conn = Connect();
   <link rel="shortcut icon" href="assets/images/ezrentallogo-128x40-1.png" type="image/x-icon">
   <meta name="description" content="EZ Rental, Affordable auto rental">
   
-  <title>Home</title>
+  <title>Reservation Confirmation</title>
   <link rel="stylesheet" href="assets/web/assets/mobirise-icons/mobirise-icons.css">
   <link rel="stylesheet" href="assets/facebook-plugin/style.css">
   <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
@@ -161,52 +161,139 @@ $conn = Connect();
         </div>
     </div>
 </section>
+<?php
+
+
+    #$type = $_POST['radio'];
+    #$charge_type = $_POST['radio1'];
+    #$driver_id = $_POST['driver_id_from_dropdown'];
+    date_default_timezone_set("America/New_York");
+    $customer_username = $_SESSION["login_customer"];
+    $car_id = $conn->real_escape_string($_POST['hidden_carid']);
+    $rent_start_date = date('Y-m-d', strtotime($_POST['rent_start_date']));
+    $rent_end_date = date('Y-m-d', strtotime($_POST['rent_end_date']));
+    $return_status = "NR"; // not returned
+    $fare = "NA";
+
+
+    function dateDiff($start, $end) {
+        $start_ts = strtotime($start);
+        $end_ts = strtotime($end);
+        $diff = $end_ts - $start_ts;
+        return round($diff / 86400);
+    }
+    
+    $err_date = dateDiff("$rent_start_date", "$rent_end_date");
+
+    $sql0 = "SELECT * FROM car WHERE car_ID = '$car_id'";
+    $result0 = $conn->query($sql0);
+    if (mysqli_num_rows($result0) > 0) {
+        while($row0 = mysqli_fetch_assoc($result0)) {
+          $car_price = $row0["price"];
+          $car_make = $row0["car_make"];
+          $car_model = $row0["car_model"];
+          $car_size = $row0["car_size"];
+          $car_tagplate = $row0["car_tagplate"];
+          $car_color = $row0["car_color"];
+        }
+      }
+    $mysql0 = "SELECT * FROM customer WHERE cus_username = '$customer_username'";
+    $myresult0 = $conn->query($mysql0);
+    if (mysqli_num_rows($myresult0) > 0) {
+        while($myrow0 = mysqli_fetch_assoc($myresult0)) {
+          $customer_id = $myrow0["cus_ID"];
+          $customer_name = $myrow0["cus_FName"];
+          $customer_phone = $myrow0["cus_phone_no"];
+          $customer_email = $myrow0["cus_email"];
+        }
+      }
+    $totalamount = $err_date * $car_price;
+
+
+    
+    if($err_date >= 0) { 
+    $sql1 = "INSERT into reservation(res_date,res_rentstart_date,res_rentend_date,res_status,res_car_ID,res_cus_ID,res_amount) 
+    VALUES('" . date("Y-m-d") ."','" . $rent_start_date ."','" . $rent_end_date . "','" . $return_status . "','" . $car_id . "','" . $customer_id . "', '" . $totalamount . "')";
+    $result1 = $conn->query($sql1);
+
+    $sql2 = "UPDATE car SET car_status = 'no' WHERE car_id = '$car_id'";
+    $result2 = $conn->query($sql2);
+
+    $sql4 = "SELECT * FROM  car c, reservation r WHERE c.car_ID = '$car_id'";
+    $result4 = $conn->query($sql4);
+
+
+    if (mysqli_num_rows($result4) > 0) {
+        while($row = mysqli_fetch_assoc($result4)) {
+            $id = $row["res_ID"];
+        }
+    }
+
+    
+
+    if (!$result1 | !$result2){
+        die("Couldnt enter data: ".$conn->error);
+    }
+
+?>
 
 
 <section class="features19 cid-qIjES4e5vV" id="features19-5">
-    <div id="sec2" style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
-    <h2 style="text-align:center;">Currently Available Cars</h2>
-<br>
-        <section class="menu-content" style="background-color: white;">
-            <?php   
-            $size = $conn->real_escape_string($_POST['car_size']);
-            $sql1 = "SELECT * FROM car WHERE car_status='yes' AND car_size='$size'";
-            $result1 = mysqli_query($conn,$sql1);
-
-            if(mysqli_num_rows($result1) > 0) {
-                while($row1 = mysqli_fetch_assoc($result1)){
-                    $car_id = $row1["car_ID"];
-                    $car_make = $row1["car_make"];
-                    $car_model = $row1["car_model"];
-                    $car_price = $row1["price"];                    
-                    $car_img = $row1["car_img"];
-                    ?>
-            <a href="reservation.php?id=<?php echo($car_id) ?>">
-            <div class="sub-menu">
-            
-
-            <img class="card-img-top" src="<?php echo $car_img; ?>" alt="Card image cap">
-            <h5> <?php echo $car_make; ?> </h5>
-            <h5> <?php echo $car_model; ?> </h5>
-            
-            <h6> Fare: <?php echo ("$" . $car_price . "/day"); ?></h6>
-
-            
-            </div> 
-            </a>
-            <?php }}
-            else {
-                ?>
-<h1> No cars available :( </h1>
-                <?php
-            }
-            ?>                                   
-        </section>
-
-    
-
+   <div class="container">
+        <div class="jumbotron">
+            <h1 class="text-center" style="color: green;"><span class="glyphicon glyphicon-ok-circle"></span> Booking Confirmed.</h1>
+        </div>
     </div>
-    
+    <br>
+
+    <h2 class="text-center"> Thank you for visiting Ez Rental Services! We wish you have a safe ride. </h2>
+
+ 
+
+    <h3 class="text-center"> <strong>Your Order Number:</strong> <span style="color: blue;"><?php echo "$id"; ?></span> </h3>
+
+
+    <div class="container">
+        <h5 class="text-center">Please read the following information about your order.</h5>
+        <div class="box bg-custom">
+            <div class="col-md-10" style="float: none; margin: 0 auto; text-align: center;">
+                <h3 style="color: orange;">Your booking has been received and placed into out order processing system.</h3>
+                <br>
+                <h4>Please make a note of your <strong>order number</strong> now and keep in the event you need to communicate with us about your order.</h4>
+                <br>
+                <h3 style="color: orange;">Invoice</h3>
+                <br>
+            </div>
+            <div class="col-md-10" style="float: none; margin: 0 auto; ">
+                <h4> <strong>Your Name: </strong> <?php echo $customer_name; ?></h4>
+                <br>
+                <h4> <strong>Your Phone No.:</strong> <?php echo $customer_phone; ?></h4>
+                <br>
+                <h4> <strong>Your Email: </strong> <?php echo $customer_email; ?></h4>
+                <br>
+                <h4> <strong>Vehicle Make:</strong> <?php echo $car_make; ?></h4>
+                <br>
+                <h4> <strong>Vehicle Model:</strong> <?php echo $car_model; ?></h4>
+                <br>
+                <h4> <strong>Vehicle Size:</strong> <?php echo $car_size; ?></h4>
+                <br>
+                <h4> <strong>Vehicle Tag:</strong> <?php echo $car_tagplate; ?></h4>
+                <br>
+                <h4> <strong>Booking Date: </strong> <?php echo date("Y-m-d"); ?> </h4>
+                <br>
+                <h4> <strong>Start Date: </strong> <?php echo $rent_start_date; ?></h4>
+                <br>
+                <h4> <strong>Return Date: </strong> <?php echo $rent_end_date; ?></h4>
+                <br>
+                <h4> <strong>Total Amount: $</strong><?php echo $totalamount; ?> </h4>
+                <br>
+                
+            </div>
+        </div>
+        <div class="col-md-12" style="float: none; margin: 0 auto; text-align: center;">
+            <h6>Warning! <strong>Do not reload this page</strong> or the above display will be lost. If you want a hardcopy of this page, please print it now.</h6>
+        </div>
+    </div>
 </section>
 
 <section class="mbr-section info5 cid-qIjGVVeB7i" id="info5-9">
@@ -371,10 +458,105 @@ $conn = Connect();
   <script src="assets/parallax/jarallax.min.js"></script>
   <script src="assets/touchswipe/jquery.touch-swipe.min.js"></script>
   <script src="assets/theme/js/script.js"></script>
-  
-  
  <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
     <input name="animation" type="hidden">
-  
 </body>
+<section class="menu cid-qIuNheldqe" once="menu" id="menu1-p">
+
+    
+    
+
+    <nav class="navbar navbar-dropdown navbar-fixed-top">
+        <?php
+                 if (isset($_SESSION['login_customer'])){
+            ?>
+             <div class="nav navbar-nav">
+                
+                        <a href="#"><span class="glyphicon glyphicon-user"></span> Welcome <?php echo $_SESSION['login_customer']; ?></a>
+                
+            </div>
+        <div class="navbar-brand">
+            
+            
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+     
+            <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
+            <div class="icons-menu">
+              <div class="soc-item">
+                <a href="https://twitter.com/mobirise" target="_blank">
+                  <span class="mbr-iconfont socicon-twitter socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              <div class="soc-item">
+                <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
+                  <span class="mbr-iconfont socicon-facebook socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              <div class="soc-item">
+                <a href="https://instagram.com/mobirise" target="_blank">
+                  <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              
+              
+              
+            </div>
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="page2.html">RENT NOW</a></div>
+      </div>
+       <?php
+            }
+                else {
+            ?>
+   
+        <div class="navbar-brand">
+            
+            
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="customerlogin.php">Login/Signup<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page4.html">Contact Us<br><br></a></li></ul>
+            <div class="icons-menu">
+              <div class="soc-item">
+                <a href="https://twitter.com/mobirise" target="_blank">
+                  <span class="mbr-iconfont socicon-twitter socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              <div class="soc-item">
+                <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
+                  <span class="mbr-iconfont socicon-facebook socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              <div class="soc-item">
+                <a href="https://instagram.com/mobirise" target="_blank">
+                  <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
+                </a>
+              </div>
+              
+              
+              
+            </div>
+            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="customerlogin.php">RENT NOW</a></div>
+      </div>
+       <?php   }
+                ?>
+    </nav>
+</section>
+  <?php } ?>
 </html>
