@@ -1,4 +1,7 @@
 <?php
+//<!-- Date 4/19/2020
+ //Ver 1.2 encrypt password using hashing password and the bcrypt algorithm
+  // Chi Luong   -->
 session_start(); // Starting Session
 $error=''; // Variable To Store Error Message
 
@@ -15,23 +18,24 @@ $customer_password=$_POST['customer_password'];
 require 'connection.php';
 $conn = Connect();
 
-// SQL query to fetch information of registerd users and finds user match.
-$query = "SELECT cus_username, cus_password FROM customer WHERE cus_username=? AND cus_password=? LIMIT 1";
-
-// To protect MySQL injection for Security purpose
-$stmt = $conn->prepare($query);
-$stmt -> bind_param("ss", $customer_username, $customer_password);
-$stmt -> execute();
-$stmt -> bind_result($customer_username, $customer_password);
-$stmt -> store_result();
-
-if ($stmt->fetch())  //fetching the contents of the row
+$query = "SELECT cus_username, cus_password from customer WHERE cus_username = '$customer_username'";
+$result = $conn -> query($query);
+if (mysqli_num_rows($result)>0)
 {
-	$_SESSION['login_customer']=$customer_username; // Initializing Session
-	header("location: index.php"); // Redirecting To Other Page
+	while ($row = mysqli_fetch_array($result)) {
+		# code...
+		if (password_verify($customer_password, $row['cus_password'])){
+			$_SESSION['login_customer']=$customer_username; // Initializing Session
+			header("location: index.php"); // Redirecting To Other Page
+		} else {
+			$error = "Username or Password is invalid";
+		}
+	}
+
 } else {
-$error = "Username or Password is invalid";
+	$error = "Username or Password is invalid";
 }
+
 mysqli_close($conn); // Closing Connection
 }
 }

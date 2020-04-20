@@ -3,6 +3,9 @@
 <?php 
 include('session_client.php'); ?>  
 <head>
+  <!-- Date 4/12/2020
+        Ver 1.0
+        Chi Luong   -->
   <title>Inventory Input</title>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -40,7 +43,7 @@ include('session_client.php'); ?>
             </div>
         </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="inventory_input.php"><br><br>Inventory Input<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li></ul>
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="inventory_input.php"><br><br>Inventory Input<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="customer.php"><br><br>Manage Customer<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li></ul>
             <div class="icons-menu">
               <div class="soc-item">
                 <a href="https://twitter.com/mobirise" target="_blank">

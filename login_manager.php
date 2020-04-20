@@ -1,4 +1,7 @@
 <?php
+//<!-- Date 4/12/2020
+//Ver 1.0
+//Chi Luong   -->
 session_start(); // Starting Session
 $error=''; // Variable To Store Error Message
 

@@ -6,7 +6,9 @@ require 'connection.php';
 $conn = Connect();
 ?>
 <head>
-  
+  <!-- Date 4/12/2020
+        Ver 1.1 adding back button line 209, fixed entering date again as we discussed
+        Chi Luong   -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
@@ -170,6 +172,8 @@ $conn = Connect();
         <section class="menu-content" style="background-color: white;">
             <?php   
             $size = $conn->real_escape_string($_POST['car_size']);
+            $_SESSION['start_date'] = $conn->real_escape_string($_POST['start_date']);
+            $_SESSION['end_date'] = $conn->real_escape_string($_POST['end_date']);
             $sql1 = "SELECT * FROM car WHERE car_status='yes' AND car_size='$size'";
             $result1 = mysqli_query($conn,$sql1);
 
@@ -206,6 +210,13 @@ $conn = Connect();
     
 
     </div>
+    <button style="margin-left: 10%; background-color: #99FFCC; height: 50px; border-radius: 8px;" onclick="goBack()">Go Back</button>
+
+<script>
+function goBack() {
+  window.history.back();
+}
+</script>
     
 </section>
 

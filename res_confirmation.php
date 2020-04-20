@@ -6,6 +6,9 @@ require 'connection.php';
 $conn = Connect();
 ?>
 <head>
+  <!-- Date 4/12/2020
+        Ver 1.1 adding return functional requirement, fixed entering date twice, modified paypal button, adding back button for filtering function
+        Chi Luong   -->
   
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,29 +28,21 @@ $conn = Connect();
   <link rel="stylesheet" href="assets/animatecss/animate.min.css">
   <link rel="stylesheet" href="assets/theme/css/style.css">
   <link rel="preload" as="style" href="assets/mobirise/css/mbr-additional.css"><link rel="stylesheet" href="assets/mobirise/css/mbr-additional.css" type="text/css">
-  
+ 
   
   
 
 </head>
 <body>
   <section class="menu cid-qIuNheldqe" once="menu" id="menu1-p">
-
-    
-    
-
-    <nav class="navbar navbar-dropdown navbar-fixed-top">
+      <nav class="navbar navbar-dropdown navbar-fixed-top">
         <?php
-                 if (isset($_SESSION['login_customer'])){
-            ?>
+            if (isset($_SESSION['login_customer'])){
+        ?>
              <div class="nav navbar-nav">
-                
-                        <a href="#"><span class="glyphicon glyphicon-user"></span> Welcome <?php echo $_SESSION['login_customer']; ?></a>
-                
+                <a href="#"><span class="glyphicon glyphicon-user"></span> Welcome <?php echo $_SESSION['login_customer']; ?></a>
             </div>
-        <div class="navbar-brand">
-            
-            
+        <div class="navbar-brand">  
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <div class="hamburger">
@@ -59,7 +54,7 @@ $conn = Connect();
         </button>
      
             <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="myreservation.php">My Reservation<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="myreservation.php">My Reservation<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="returnnow.php">Return Now<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
             <div class="icons-menu">
               <div class="soc-item">
                 <a href="https://twitter.com/mobirise" target="_blank">
@@ -76,20 +71,15 @@ $conn = Connect();
                   <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                 </a>
               </div>
-              
-              
-              
             </div>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="page2.html">RENT NOW</a></div>
       </div>
-       <?php
-            }
-                else {
-            ?>
+      <?php
+          }
+          else {
+      ?>
    
         <div class="navbar-brand">
-            
-            
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <div class="hamburger">
@@ -99,8 +89,7 @@ $conn = Connect();
                 <span></span>
             </div>
         </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="customerlogin.php">Login/Signup<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page4.html">Contact Us<br><br></a></li></ul>
             <div class="icons-menu">
               <div class="soc-item">
@@ -117,17 +106,15 @@ $conn = Connect();
                 <a href="https://instagram.com/mobirise" target="_blank">
                   <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
                 </a>
-              </div>
-              
-              
-              
+              </div>       
             </div>
             <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="customerlogin.php">RENT NOW</a></div>
-      </div>
-       <?php   }
-                ?>
+        </div>
+      <?php   
+          }
+      ?>
     </nav>
-</section>
+  </section>
 <section class="header5 cid-rzBfcbdf3b mbr-parallax-background" id="header5-q">
 
     
@@ -170,8 +157,10 @@ $conn = Connect();
     date_default_timezone_set("America/New_York");
     $customer_username = $_SESSION["login_customer"];
     $car_id = $conn->real_escape_string($_POST['hidden_carid']);
-    $rent_start_date = date('Y-m-d', strtotime($_POST['rent_start_date']));
-    $rent_end_date = date('Y-m-d', strtotime($_POST['rent_end_date']));
+    //$rent_start_date = date('Y-m-d', strtotime($_POST['rent_start_date']));
+    //$rent_end_date = date('Y-m-d', strtotime($_POST['rent_end_date']));
+    $rent_start_date = date('Y-m-d', strtotime($_SESSION['start_date']));
+    $rent_end_date = date('Y-m-d', strtotime($_SESSION['end_date']));
     $return_status = "NR"; // not returned
     $fare = "NA";
 
@@ -214,7 +203,9 @@ $conn = Connect();
     if($err_date >= 0) { 
     $sql1 = "INSERT into reservation(res_date,res_rentstart_date,res_rentend_date,res_status,res_car_ID,res_cus_ID,res_amount) 
     VALUES('" . date("Y-m-d") ."','" . $rent_start_date ."','" . $rent_end_date . "','" . $return_status . "','" . $car_id . "','" . $customer_id . "', '" . $totalamount . "')";
-    $result1 = $conn->query($sql1);
+	$result1 = $conn->query($sql1);
+	}
+    
 
     $sql2 = "UPDATE car SET car_status = 'no' WHERE car_id = '$car_id'";
     $result2 = $conn->query($sql2);
@@ -236,8 +227,6 @@ $conn = Connect();
     }
 
 ?>
-
-
 <section class="features19 cid-qIjES4e5vV" id="features19-5">
    <div class="container">
         <div class="jumbotron">
@@ -279,20 +268,41 @@ $conn = Connect();
                 <br>
                 <h4> <strong>Vehicle Tag:</strong> <?php echo $car_tagplate; ?></h4>
                 <br>
-                <h4> <strong>Booking Date: </strong> <?php echo date("Y-m-d"); ?> </h4>
+                <h4> <strong>Booking Date: </strong> <?php echo date("Y-m-d"); ?></h4>
                 <br>
                 <h4> <strong>Start Date: </strong> <?php echo $rent_start_date; ?></h4>
                 <br>
                 <h4> <strong>Return Date: </strong> <?php echo $rent_end_date; ?></h4>
                 <br>
-                <h4> <strong>Total Amount: $</strong><?php echo $totalamount; ?> </h4>
+                <h4> <strong>Total Amount: $</strong><?php echo $totalamount; ?></h4>
                 <br>
                 
             </div>
+
+
         </div>
+        <div class="box1">
+  <span class="paypal-logo">
+    <i>Pay</i><i>Pal</i>
+  </span>
+  
+  <br />
+  
+  <button class="paypal-button">
+    <span class="paypal-button-title">
+      Pay now with
+    </span>
+    <span class="paypal-logo">
+      <a href="payprocess.php" name="submit" type="submit"><i>Pay</i><i>Pal</i></a>
+    </span>
+  </button>
+</div>
+       
         <div class="col-md-12" style="float: none; margin: 0 auto; text-align: center;">
+          <br>
             <h6>Warning! <strong>Do not reload this page</strong> or the above display will be lost. If you want a hardcopy of this page, please print it now.</h6>
         </div>
+
     </div>
 </section>
 
@@ -461,102 +471,5 @@ $conn = Connect();
  <div id="scrollToTop" class="scrollToTop mbr-arrow-up"><a style="text-align: center;"><i class="mbr-arrow-up-icon mbr-arrow-up-icon-cm cm-icon cm-icon-smallarrow-up"></i></a></div>
     <input name="animation" type="hidden">
 </body>
-<section class="menu cid-qIuNheldqe" once="menu" id="menu1-p">
 
-    
-    
-
-    <nav class="navbar navbar-dropdown navbar-fixed-top">
-        <?php
-                 if (isset($_SESSION['login_customer'])){
-            ?>
-             <div class="nav navbar-nav">
-                
-                        <a href="#"><span class="glyphicon glyphicon-user"></span> Welcome <?php echo $_SESSION['login_customer']; ?></a>
-                
-            </div>
-        <div class="navbar-brand">
-            
-            
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </button>
-     
-            <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
-            <div class="icons-menu">
-              <div class="soc-item">
-                <a href="https://twitter.com/mobirise" target="_blank">
-                  <span class="mbr-iconfont socicon-twitter socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                </a>
-              </div>
-              <div class="soc-item">
-                <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
-                  <span class="mbr-iconfont socicon-facebook socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                </a>
-              </div>
-              <div class="soc-item">
-                <a href="https://instagram.com/mobirise" target="_blank">
-                  <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                </a>
-              </div>
-              
-              
-              
-            </div>
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="page2.html">RENT NOW</a></div>
-      </div>
-       <?php
-            }
-                else {
-            ?>
-   
-        <div class="navbar-brand">
-            
-            
-        </div>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="customerlogin.php">Login/Signup<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page3.html">About Us</a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="page4.html">Contact Us<br><br></a></li></ul>
-            <div class="icons-menu">
-              <div class="soc-item">
-                <a href="https://twitter.com/mobirise" target="_blank">
-                  <span class="mbr-iconfont socicon-twitter socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                </a>
-              </div>
-              <div class="soc-item">
-                <a href="https://www.facebook.com/pages/Mobirise/1616226671953247" target="_blank">
-                  <span class="mbr-iconfont socicon-facebook socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                </a>
-              </div>
-              <div class="soc-item">
-                <a href="https://instagram.com/mobirise" target="_blank">
-                  <span class="mbr-iconfont socicon-instagram socicon" style="color: rgb(255, 255, 255); fill: rgb(255, 255, 255);"></span>
-                </a>
-              </div>
-              
-              
-              
-            </div>
-            <div class="navbar-buttons mbr-section-btn"><a class="btn btn-sm btn-white display-4" href="customerlogin.php">RENT NOW</a></div>
-      </div>
-       <?php   }
-                ?>
-    </nav>
-</section>
-  <?php } ?>
 </html>

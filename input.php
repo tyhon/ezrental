@@ -1,6 +1,9 @@
 <html>
 
 <head>
+  <!-- Date 4/12/2020
+        Ver 1.0
+        Chi Luong   -->
   <title>Inventory Input</title>
   <link rel="shortcut icon" href="assets/images/ezrentallogo-128x40-1.png" type="image/x-icon">
   <meta name="description" content="EZ Rental, Affordable auto rental">

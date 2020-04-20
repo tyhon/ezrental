@@ -9,7 +9,9 @@ header("location: page2.php"); //Redirecting
 <!DOCTYPE html>
 <html  >
 <head>
-  
+  //<!-- Date 4/19/2020
+ //Ver 1.2 encrypt password using hashing password and the bcrypt algorithm
+  // Chi Luong   -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   
@@ -124,8 +126,9 @@ $customer_email = $conn->real_escape_string($_POST['customer_email']);
 $customer_phone = $conn->real_escape_string($_POST['customer_phone']);
 $customer_dob = $conn->real_escape_string($_POST['customer_dob']);
 $customer_password = $conn->real_escape_string($_POST['customer_password']);
+$password = password_hash($customer_password, PASSWORD_DEFAULT);
 
-$query = "INSERT into customer(cus_Fname,cus_username,cus_password,cus_email,cus_phone_no,cus_DOB) VALUES('" . $customer_name . "','" . $customer_username . "','" . $customer_password . "','" . $customer_email . "','" . $customer_phone ."','" . $customer_dob ."')";
+$query = "INSERT into customer(cus_Fname,cus_username,cus_password,cus_email,cus_phone_no,cus_DOB) VALUES('" . $customer_name . "','" . $customer_username . "','" . $password . "','" . $customer_email . "','" . $customer_phone ."','" . $customer_dob ."')";
 $success = $conn->query($query);
 
 if (!$success){

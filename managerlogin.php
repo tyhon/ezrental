@@ -1,5 +1,8 @@
 
 <?php
+// Date 4/12/2020
+  //      Ver 1.0
+    //    Chi Luong   -->
 include('login_manager.php'); // Includes Login Script
 
 if(isset($_SESSION['login_client'])){

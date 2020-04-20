@@ -1,4 +1,7 @@
 <?php
+//<!-- Date 4/12/2020
+//        Ver 1.0
+//       Chi Luong   -->
 // mysqli_connect() function opens a new connection to the MySQL server.
 require 'connection.php';
 $conn = Connect();

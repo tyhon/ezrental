@@ -6,6 +6,9 @@ require 'connection.php';
 $conn = Connect();
 ?>
 <head>
+  <!-- Date 4/12/2020
+        Ver 1.1 adding back button line 209, fixed entering date again as we discussed
+        Chi Luong   -->
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
@@ -45,7 +48,7 @@ $conn = Connect();
         </button>
      
             <div class="collapse navbar-collapse navbar-right" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="myreservation.php">My Reservation<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
+            <ul class="navbar-nav nav-dropdown navbar-nav-top-padding" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="index.php"><br><br>Home<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="filtering.php">Get Quote<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="myreservation.php">My Reservation<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="returnnow.php">Return Now<br></a></li><li class="nav-item"><a class="nav-link link text-black display-4" href="logout.php">Logout<br></a></li></ul>
             <div class="icons-menu">
               <div class="soc-item">
                 <a href="https://twitter.com/mobirise" target="_blank">
@@ -142,6 +145,8 @@ $conn = Connect();
               <?php
                 $car_id = $_GET["id"];
                 $customer_username = $_SESSION['login_customer'];
+                $rent_begin = $_SESSION['start_date'];
+                $rent_end = $_SESSION['end_date'];
                 $sql1 = "SELECT * FROM car WHERE car_ID = '$car_id'";
                 $result1 = mysqli_query($conn, $sql1);
 
@@ -170,11 +175,13 @@ $conn = Connect();
               <?php 
               date_default_timezone_set("America/New_York");
               $today = date("Y-m-d") ?>
-              <label><h5>Start Date:</h5></label>
-              <input type="date" name="rent_start_date" min="<?php echo($today);?>" required="">
-            &nbsp;
-              <label><h5>End Date:</h5></label>
-              <input type="date" name="rent_end_date" min="<?php echo($today);?>" required="">
+              <label><h5>Start Date:</h5></label> <?php echo($rent_begin);?>
+              <!-- </div>      
+              <input type="date" name="rent_start_date" min="<?php echo($today);?>" required=""> -->
+            <br>
+              <label><h5>End Date:</h5></label> <?php echo($rent_end);?>
+              <!-- </div>     
+              <input type="date" name="rent_end_date" min="<?php echo($today);?>" required="">-->
         <!-- </div>      -->
               <h5>Price: <?php echo("$" . $car_price . "/day");?><h5> 
      
@@ -183,6 +190,8 @@ $conn = Connect();
               <input type="hidden" name="hidden_carid" value="<?php echo $car_id; ?>">
               <input type="submit"name="submit" value="Book Now" class="btn btn-success pull-right">     
         </form>
+
+</script>
         
       </div>
       <div class="col-md-12" style="float: none; margin: 0 auto; text-align: center;">
